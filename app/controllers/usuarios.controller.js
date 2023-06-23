@@ -15,7 +15,9 @@ export const getUsuarios = async (req, res) => {
 export const addUsuarios = async (req, res) => {
     try {
         let { rut, nombre, email, password } = req.body;
+        console.log(rut, nombre, email, password)
         const newUser = await Usuario.create({ rut, nombre, email, password })
+        
         res.send({ code: 201, message: 'Usuario creado con exito', data: newUser })
     } catch (error) {
         console.log(error)

@@ -23,10 +23,10 @@ router.delete("/cuentas/destroy/:n_cuenta", destroyCuentas);
 
 //EndPoint de la tabla Registros
 router.get("/registros/", getRegistros);
-router.get("/registros/:id", registrosfindBy);
+router.get("/registros/:n_operacion", registrosfindBy);
 router.post("/registros/", addRegistros);
-router.put("/registros/:id", updateRegistros);
-router.delete("/registros/:id", deleteRegistros);
-router.delete("/registros/destroy/:id", destroyRegistros);
+router.put("/registros/:n_operacion", updateRegistros);
+router.delete("/registros/:n_operacion", deleteRegistros);
+router.delete("/registros/destroy/:n_operacion", destroyRegistros);
 
 export default router;

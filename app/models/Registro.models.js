@@ -11,7 +11,7 @@ const Registro = sequelize.define('registros', {
     },
     rut: {
         type: DataTypes.STRING(20),
-        unique: true,
+        unique: false,
         allowNull: false,
     },
     n_cuenta: {
