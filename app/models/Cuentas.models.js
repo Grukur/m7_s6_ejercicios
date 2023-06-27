@@ -16,6 +16,10 @@ const Cuentas = sequelize.define('cuentas', {
         type:DataTypes.STRING(10),
         allowNull:false
     },
+    balance:{
+        type:DataTypes.DECIMAL(11,2),
+        defaultValue: 0
+    },
     status:{
         type:DataTypes.BOOLEAN,
         defaultValue:true
