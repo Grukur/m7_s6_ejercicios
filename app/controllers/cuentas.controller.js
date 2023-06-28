@@ -7,7 +7,7 @@ export const getCuentas = async (req, res) => {
     } catch (error) {
         res.status(500).send({
             code: 500,
-            message: 'Error al obtener todos los Cuentas'
+            message: 'Error al obtener Cuentas'
         })
     }
 }
@@ -15,14 +15,19 @@ export const getCuentas = async (req, res) => {
 export const addCuentas = async (req, res) => {
     try {
         let { rut, n_cuenta, tipo } = req.body;
-        console.log(rut, n_cuenta, tipo)
-        const newUser = await Cuentas.create({ rut, n_cuenta, tipo })
-        res.send({ code: 201, message: 'Cuentas creado con exito', data: newUser })
+        const newCuentas = await Cuentas.create({ rut, n_cuenta, tipo })
+        if (!newCuentas) {
+            res.send({
+                code: 500,
+                message: 'Error al crear Cuenta, por usar nulos'
+            })
+        }
+        res.send({ code: 201, message: 'Cuentas creado con exito', data: newCuentas })
     } catch (error) {
         console.log(error)
         res.status(500).send({
             code: 500,
-            message: 'Error al crear todos los Cuentas'
+            message: 'Error al crear Cuentas'
         })
     }
 }
@@ -31,13 +36,13 @@ export const cuentasfindBy = async (req, res) => {
     try {
         let { n_cuenta } = req.params;
         let user = await Cuentas.findByPk(n_cuenta)
-        if(!user){
+        if (!user) {
             res.status(404).send({
                 code: 404,
                 message: 'No se encontro la cuenta'
-            
-        })
-    }res.send({
+
+            })
+        } res.send({
             code: 200,
             message: 'Cuentas encontrado: ',
             data: user
@@ -53,13 +58,13 @@ export const cuentasfindBy = async (req, res) => {
 export const updateCuentas = async (req, res) => {
     try {
         let { n_cuenta } = req.params;
-        let { rut, tipo } = req.body;
+        let { rut, tipo, balance } = req.body;
         let cuentas = await Cuentas.findByPk(n_cuenta)
-            if(!cuentas){
-                return res.status(404).send({message: 'Cuentas no encontrado'})
-            }
-            await Cuentas.update({ rut, tipo }, { where: { n_cuenta }})       
-        
+        if (!cuentas) {
+            return res.status(404).send({ message: 'Cuentas no encontrado' })
+        }
+        await Cuentas.update({ rut, tipo, balance }, { where: { n_cuenta } })
+
         res.send({
             code: 200,
             message: `Cuenta N° ${n_cuenta} modificado con exito`,
@@ -75,13 +80,13 @@ export const updateCuentas = async (req, res) => {
 export const deleteCuentas = async (req, res) => {
     try {
         let { n_cuenta } = req.params;
-        let {status} = req.body;
+        let { status } = req.body;
         let cuentas = await Cuentas.findByPk(n_cuenta)
-            if(!cuentas){
-                return res.status(404).send({message: 'Cuentas no encontrado'})
-            }
-            await Cuentas.update({status}, { where: { n_cuenta }})       
-        
+        if (!cuentas) {
+            return res.status(404).send({ message: 'Cuentas no encontrado' })
+        }
+        await Cuentas.update({ status }, { where: { n_cuenta } })
+
         res.send({
             code: 200,
             message: `Cuenta N° ${n_cuenta} eliminada con exito`,
@@ -99,7 +104,7 @@ export const destroyCuentas = async (req, res) => {
     try {
         let { n_cuenta } = req.params;
         console.log(n_cuenta)
-        await Cuentas.destroy({where: {n_cuenta}});
+        await Cuentas.destroy({ where: { n_cuenta } });
         res.send({
             code: 200,
             message: `Cuenta N° ${n_cuenta} destruida con exito`,

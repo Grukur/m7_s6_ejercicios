@@ -2,6 +2,7 @@ import express from 'express';
 import {getUsuarios, addUsuarios, usuariosfindBy, deleteUsuarios, updateUsuario, destroyUsuarios} from '../controllers/usuarios.controller.js';
 import {getCuentas, addCuentas, cuentasfindBy, deleteCuentas, updateCuentas, destroyCuentas} from '../controllers/cuentas.controller.js';
 import {getRegistros, addRegistros, registrosfindBy, deleteRegistros, updateRegistros, destroyRegistros} from '../controllers/registros.controller.js';
+import {getBeneficio, addBeneficio, updateBeneficio, deleteBeneficio, addAsociacion} from '../controllers/beneficio.controller.js';
 
 const router = express.Router();
 
@@ -28,5 +29,13 @@ router.post("/registros/", addRegistros);
 router.put("/registros/:n_operacion", updateRegistros);
 router.delete("/registros/:n_operacion", deleteRegistros);
 router.delete("/registros/destroy/:n_operacion", destroyRegistros);
+
+//EndPoint de la tabla Beneficio
+router.get("/beneficio/", getBeneficio);
+router.post("/beneficio/", addBeneficio);
+router.put("/beneficio/:n_cuenta", updateBeneficio);
+router.delete("/beneficio/:n_cuenta", deleteBeneficio);
+router.post("/beneficio/vincular", addAsociacion);
+
 
 export default router;

@@ -1,8 +1,22 @@
-import Usuario from "../models/Usuario.models.js"
+import Usuario from "../models/Usuario.models.js";
+import Beneficio from "../models/Beneficio.models.js";
+import Cuentas from "../models/Cuentas.models.js";
 
 export const getUsuarios = async (req, res) => {
     try {
-        const usuarios = await Usuario.findAll({attributes: ['id', 'rut', 'nombre', 'email', 'status']});
+        const usuarios = await Usuario.findAll({attributes: 
+            ['id', 'rut', 'nombre', 'email', 'status'],
+            include:{
+                model: Cuentas,
+                as: "cuentas",
+                attributes: { exclude: ["usuarioId", "createdAt", "updatedAt"] },
+            },
+            include:{
+                model: Beneficio,
+                as: "beneficio",
+                attributes: { exclude: ["usuarioId", "createdAt", "updatedAt"] },
+            }
+    });
         res.send({ code: 200, data: usuarios })
     } catch (error) {
         res.status(500).send({

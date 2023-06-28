@@ -13,12 +13,17 @@ const Cuentas = sequelize.define('cuentas', {
         primaryKey:true
     },
     tipo:{
-        type:DataTypes.STRING(10),
+        type:DataTypes.ENUM('corriente', 'vista', 'dolares'),
         allowNull:false
     },
     balance:{
         type:DataTypes.DECIMAL(11,2),
-        defaultValue: 0
+        defaultValue: 0,
+        allowNull:false,
+        validate:{
+            min:0,
+            isDecimal:true
+        }
     },
     status:{
         type:DataTypes.BOOLEAN,
